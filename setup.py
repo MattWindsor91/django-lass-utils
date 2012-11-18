@@ -7,9 +7,9 @@ import os
 import sys
 
 
-name = 'django-lass-metadata'
-package = 'metadata'
-description = 'Metadata system for LASS'
+name = 'django-lass-utils'
+package = 'lass_utils'
+description = 'Utilities and common patterns for LASS'
 url = 'http://github.com/UniversityRadioYork/django-lass-metadata/'
 author = 'URY Computing Team'
 author_email = 'computing@ury.org.uk'
