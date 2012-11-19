@@ -1,7 +1,6 @@
 """
 The `lass-utils` module contains many mixins for adding common
-patterns, both pertinent to the lass_utils subsystem and not, to
-existing models.
+patterns to existing models.
 
 Many of these mixins are abstract models that add in new fields on
 existing models; you may need to remove direct inheritance from
