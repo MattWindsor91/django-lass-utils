@@ -1,0 +1,15 @@
+- model: lass_utils.ConcreteType
+  pk: 1
+  fields:
+    name: foo
+    description: foo foo foo foo
+- model: lass_utils.ConcreteType
+  pk: 2
+  fields:
+    name: bar
+    description: bar bar bar
+- model: lass_utils.ConcreteType
+  pk: 3
+  fields:
+    name: baz
+    description: baz baz

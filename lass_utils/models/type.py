@@ -74,7 +74,7 @@ class Type(models.Model):
             cache_key = u'type-{0}-{1}-{2}'.format(
                 cls._meta.app_label,
                 cls._meta.object_name,
-                identifier.replace('-', '--').replace(' ', '-')
+                unicode(identifier).replace('-', '--').replace(' ', '-')
                 # ^-- Memcached refuses keys with spaces
             )
             cached = cache.get(cache_key)
