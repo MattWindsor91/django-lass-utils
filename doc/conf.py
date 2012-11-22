@@ -153,28 +153,21 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'LASSdoc'
+htmlhelp_basename = 'django-lass-utils'
 
 
 # -- Options for LaTeX output ----------------------------------------
 
 latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
     'papersize': 'a4paper',
-
-    # The font size ('10pt', '11pt' or '12pt').
-    #'pointsize': '10pt',
-
-    # Additional stuff for the LaTeX preamble.
-    #'preamble': '',
 }
 
 latex_documents = [
     (
         'index',
-        'LASS.tex',
-        u'LASS Documentation',
-        u'URY Computing Team',
+        'django-lass-utils.tex',
+        u'LASS Utilities Package',
+        u'URY Computing Team & contributors',
         'manual'
     ),
 ]
@@ -207,9 +200,9 @@ latex_documents = [
 man_pages = [
     (
         'index',
-        'lass',
-        u'LASS Documentation',
-        [u'URY Computing Team'],
+        'django-lass-utils',
+        u'LASS Utilities Package',
+        [u'URY Computing Team', u'contributors'],
         1)
 ]
 
@@ -225,11 +218,11 @@ man_pages = [
 texinfo_documents = [
     (
         'index',
-        'LASS',
-        u'LASS Documentation',
-        u'URY Computing Team',
-        'LASS',
-        'One line description of project.',
+        'django-lass-utils',
+        u'LASS Utilities Package',
+        u'URY Computing Team & contributors',
+        'django-lass-utils',
+        'Utility models, mixins and functions for LASS.',
         'Miscellaneous'
     ),
 ]
