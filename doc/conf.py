@@ -167,7 +167,7 @@ latex_documents = [
         'index',
         'django-lass-utils.tex',
         u'LASS Utilities Package',
-        u'URY Computing Team & contributors',
+        u'URY Computing Team and contributors',
         'manual'
     ),
 ]
