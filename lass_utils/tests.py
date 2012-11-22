@@ -54,4 +54,11 @@ class TypeTest(TestCase):
         correctly.
 
         """
-        self.assertIsNone(ConcreteType.get(-1))
+        with self.assertRaises(ConcreteType.DoesNotExist):
+            ConcreteType.get(-1)
+
+        with self.assertRaises(ConcreteType.DoesNotExist):
+            ConcreteType.get('thisWillHopefullyNotBeDefined')
+
+        with self.assertRaises(TypeError):
+            ConcreteType.get({'cannot': 'pass', 'a': 'dict'})
