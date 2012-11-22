@@ -47,3 +47,11 @@ class TypeTest(TestCase):
             self.assertEqual(ConcreteType.get(obj.name), obj)
             # As should getting an object by its primary key
             self.assertEqual(ConcreteType.get(obj.pk), obj)
+
+    def test_get_fail(self):
+        """
+        Tests that using `get` with erroneous arguments behaves
+        correctly.
+
+        """
+        self.assertIsNone(ConcreteType.get(-1))
