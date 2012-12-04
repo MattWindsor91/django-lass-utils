@@ -3,7 +3,7 @@ API Documentation
 =================
 
 This section of the django-lass-utils documentation is automatically
-generated from the documentation.
+generated from the code.
 
 .. automodule:: lass_utils
     :deprecated:

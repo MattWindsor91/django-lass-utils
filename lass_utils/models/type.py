@@ -1,5 +1,9 @@
 """
-Common base class for type-of models.
+Type
+----
+
+This module defines :class:`type`, a common base class for type-of
+models.
 
 In `LASS`, the pattern of dynamic lookup tables representing types
 and categories of other objects is very prevalent; in order to make

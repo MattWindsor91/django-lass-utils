@@ -1,12 +1,9 @@
 """
-The `lass_utils` module contains several model definitions under
-`lass_utils.models`.
-
 Models
 ======
 
-Type
-----
+The `lass_utils` module contains several model definitions under
+`lass_utils.models`.
 
 .. automodule:: lass_utils.models.type
     :deprecated:
