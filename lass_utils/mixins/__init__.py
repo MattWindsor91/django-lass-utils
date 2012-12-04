@@ -29,6 +29,14 @@ from `django.models.Model`.
     :show-inheritance:
 
 """
+from lass_utils.mixins.attachable import AttachableMixin
+AttachableMixin = AttachableMixin
+
 from lass_utils.mixins.submittable import SubmittableMixin
+SubmittableMixin = SubmittableMixin
+
 from lass_utils.mixins.date_range import DateRangeMixin
+DateRangeMixin = DateRangeMixin
+
 from lass_utils.mixins.effective_range import EffectiveRangeMixin
+EffectiveRangeMixin = EffectiveRangeMixin
