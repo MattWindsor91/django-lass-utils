@@ -11,4 +11,7 @@ notifications:
     channels:
       - "irc.freenode.org#ury"
     skip_join: true
+    template:
+      - "%{repository} (%{commit}, %{author}) : %{message}"
+      - "Build details: %{build_url}"
 script: python manage.py test
