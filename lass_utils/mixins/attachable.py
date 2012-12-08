@@ -32,7 +32,8 @@ class AttachableMixin(object):
                    table=None,
                    id_column=None,
                    fkey_column=None,
-                   help_text=None):
+                   help_text=None,
+                   fkey=None):
         """
         Constructs a concrete implementation of this attachable model
         to provide data to a provided model.
@@ -69,16 +70,28 @@ class AttachableMixin(object):
             ))
 
         # Make the foreign key pointing to the element.
-        # - Let's make the dict of arguments to the foreign key class.
-        fkey_kwargs = {}
-        # - Did the user specify a foreign key?
-        if fkey_column:
-            fkey_kwargs['db_column'] = fkey_column
-        # - Now we can have a foreign key...
-        fields['element'] = models.ForeignKey(
-            target_class,
-            **fkey_kwargs
-        )
+        # - Did the user pass in a foreign key field?
+        #   If so, use that, else make our own...
+        if not fkey:
+            # - Let's make the dict of arguments to the foreign key class.
+            fkey_kwargs = {}
+            # - Did the user specify a foreign key?
+            if fkey_column:
+                fkey_kwargs['db_column'] = fkey_column
+            # - Now we can have a foreign key...
+            fkey = models.ForeignKey(
+                target_class,
+                **fkey_kwargs
+            )
+        fields['element'] = fkey
+
+        # Did the user specify a specific ID column?
+        # If so, use that.
+        if id_column:
+            fields['id'] = models.AutoField(
+                primary_key=True,
+                db_column=id_column
+            )
 
         # Now dynamically construct the class.
         return cls.__class__(
