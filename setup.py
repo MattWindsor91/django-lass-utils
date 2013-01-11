@@ -14,7 +14,10 @@ url = 'http://github.com/UniversityRadioYork/django-lass-metadata/'
 author = 'URY Computing Team'
 author_email = 'computing@ury.org.uk'
 license = 'BSD'
-install_requires = []
+install_requires = [
+    'Django',
+    'django-model-utils',
+]
 
 
 def get_version(package):

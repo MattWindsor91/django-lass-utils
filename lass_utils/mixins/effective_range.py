@@ -5,8 +5,50 @@ to' pair of fields.
 """
 
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import timezone
+
+from model_utils.managers import PassThroughManager
+
 from lass_utils.mixins.date_range import DateRangeMixin
+
+
+class ERQuerySet(QuerySet):
+    """
+    Custom QuerySet allowing date range-based filtering.
+
+    """
+    def in_range(self, from_date, to_date):
+        """
+        Filters towards a QuerySet of items in this QuerySet that are
+        effective during the given date range.
+
+        The items must cover the entire range.
+
+        Items with an 'effective_from' of NULL will be discarded;
+        items with an 'effective_to' of NULL will be treated as if
+        their effective_to is infinitely far in the future.
+
+        If queryset is given, it will be filtered with the
+        above condition; else the entire object set will be
+        considered.
+
+        """
+        # TODO: propagate to DateRangeMixin?
+
+        # Note that filter throws out objects with fields set to
+        # NULL whereas exclude does not.
+        return (self
+                .filter(effective_from__lte=from_date)
+                .exclude(effective_to__lt=to_date))
+
+    def at(self, date):
+        """
+        Wrapper around 'in_range' that retrieves items effective
+        at the given moment in time.
+
+        """
+        return self.in_range(date, date)
 
 
 class EffectiveRangeMixin(models.Model, DateRangeMixin):
@@ -14,10 +56,6 @@ class EffectiveRangeMixin(models.Model, DateRangeMixin):
     fields that implement DateRangeMixin.
 
     """
-
-    class Meta:
-        get_latest_by = 'effective_from'
-        abstract = True
 
     effective_from = models.DateTimeField(
         db_column='effective_from',
@@ -47,35 +85,20 @@ class EffectiveRangeMixin(models.Model, DateRangeMixin):
 
     @classmethod
     def in_range(cls, from_date, to_date, queryset=None):
-        """Retrieves (or filters towards) a QuerySet of items in
-        this model that are effective during the given time
-        range.
-
-        The items must cover the entire range.
-
-        Items with an 'effective_from' of NULL will be discarded;
-        items with an 'effective_to' of NULL will be treated as if
-        their effective_to is infinitely far in the future.
-
-        If queryset is given, it will be filtered with the
-        above condition; else the entire object set will be
-        considered.
-        """
+        """Compatibility wrapper for QuerySet.in_range."""
         if queryset is None:
-            queryset = cls.objects.all()
-        # Note that filter throws out objects with fields set to
-        # NULL whereas exclude does not.
-        return (queryset
-                .filter(effective_from__lte=from_date)
-                .exclude(effective_to__lt=to_date))
+            queryset = cls.objects
+        return queryset.in_range(from_date, to_date)
 
     @classmethod
-    def at(cls, date, *args, **kwargs):
-        """Wrapper around 'in_range' that retrieves items effective
-        at the given moment in time.
+    def at(cls, date, queryset=None):
+        """Compatibility wrapper for QuerySet.at."""
+        if queryset is None:
+            queryset = cls.objects
+        return queryset.at(date)
 
-        See the documentation for 'in_range' for information about
-        which arguments can be provided besides 'date'.
+    objects = PassThroughManager.for_queryset_class(ERQuerySet)()
 
-        """
-        return cls.in_range(date, date, *args, **kwargs)
+    class Meta(object):
+        get_latest_by = 'effective_from'
+        abstract = True
