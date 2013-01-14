@@ -31,12 +31,15 @@ class AttachableMixin(object):
                    model_name=None,
                    table=None,
                    id_column=None,
-                   fkey_column=None,
-                   help_text=None,
                    fkey=None):
         """
         Constructs a concrete implementation of this attachable model
         to provide data to a provided model.
+
+        The attachable can either be attached to an existing model by
+        passing in a foreign key field to that model as ``fkey``, or it
+        can be instantiated in a stand-alone context by leaving ``fkey``
+        as ``None``.
 
         """
         if isinstance(target_class, basestring):
@@ -62,28 +65,18 @@ class AttachableMixin(object):
                 app_label = app
         fields['Meta'] = Meta
 
-        # Default model name is Target-nameThis-type-ofMetadata
+        # Default model name is Target-nameThis-class-name
         if model_name is None:
             model_name = ''.join((
                 target_name,
                 cls.__name__
             ))
 
-        # Make the foreign key pointing to the element.
-        # - Did the user pass in a foreign key field?
-        #   If so, use that, else make our own...
-        if not fkey:
-            # - Let's make the dict of arguments to the foreign key class.
-            fkey_kwargs = {}
-            # - Did the user specify a foreign key?
-            if fkey_column:
-                fkey_kwargs['db_column'] = fkey_column
-            # - Now we can have a foreign key...
-            fkey = models.ForeignKey(
-                target_class,
-                **fkey_kwargs
-            )
-        fields['element'] = fkey
+        # Attach the foreign key, if present.  (If there isn't a
+        # foreign key, this means we're attaching metadata to a
+        # singleton class, usually.)
+        if fkey:
+            fields['element'] = fkey
 
         # Did the user specify a specific ID column?
         # If so, use that.
