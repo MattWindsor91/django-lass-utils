@@ -48,6 +48,28 @@ class Type(models.Model):
     ## CLASS METHODS ##
 
     @classmethod
+    def get_if_exists(cls, identifier):
+        """
+        Like :meth:`get`, but returns ``None`` instead of raising an
+        exception if the requested type does not exist.
+
+        TypeError is still raised in the event of a disallowed
+        identifier type.
+
+        :param identifier: an item of data representing the type to
+            retrieve, or the type itself
+        :type identifier: string, integer or an element of the called
+            class
+        :rtype: an element of the called class
+
+        """
+        try:
+            cls.get(identifier)
+        except cls.DoesNotExist:
+            return None
+
+
+    @classmethod
     def get(cls, identifier):
         """
         User-friendly type get function.
