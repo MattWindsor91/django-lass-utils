@@ -48,6 +48,31 @@ class TypeTest(TestCase):
             # As should getting an object by its primary key
             self.assertEqual(ConcreteType.get(obj.pk), obj)
 
+    def test_get_if_exists(self):
+        """
+        Tests that using `get_if_exists` on an existing type retrieves it as
+        expected.
+
+        """
+        test_objs = list(ConcreteType.objects.all())
+        assert len(test_objs) > 1, 'Test fixture should not be empty.'
+
+        for obj in test_objs:
+            # Passing an object to its own class's get should
+            # just return the object unmolested
+            self.assertIs(ConcreteType.get_if_exists(obj), obj)
+            # Getting an object by its name should work
+            self.assertEqual(ConcreteType.get_if_exists(obj.name), obj)
+            # As should getting an object by its primary key
+            self.assertEqual(ConcreteType.get_if_exists(obj.pk), obj)
+
+        # These should return None
+        self.assertIsNone(ConcreteType.get_if_exists(-1))
+        self.assertIsNone(ConcreteType.get_if_exists('notDefined'))
+
+        with self.assertRaises(TypeError):
+            ConcreteType.get({'cannot': 'pass', 'a': 'dict'})
+
     def test_get_fail(self):
         """
         Tests that using `get` with erroneous arguments behaves

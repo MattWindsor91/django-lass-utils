@@ -64,9 +64,10 @@ class Type(models.Model):
 
         """
         try:
-            cls.get(identifier)
+            result = cls.get(identifier)
         except cls.DoesNotExist:
-            return None
+            result = None
+        return result
 
 
     @classmethod
