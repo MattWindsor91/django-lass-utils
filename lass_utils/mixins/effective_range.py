@@ -52,7 +52,8 @@ class ERQuerySet(QuerySet):
 
 
 class EffectiveRangeMixin(models.Model, DateRangeMixin):
-    """Mixin adding an 'effective from' and 'effective to' pair of
+    """
+    Mixin adding an 'effective from' and 'effective to' pair of
     fields that implement DateRangeMixin.
 
     """
@@ -66,7 +67,8 @@ class EffectiveRangeMixin(models.Model, DateRangeMixin):
             If this is not given, then the item is inert, which
             is usually the case when it has not been approved.
 
-            """)
+            """
+    )
 
     effective_to = models.DateTimeField(
         db_column='effective_to',
@@ -75,7 +77,8 @@ class EffectiveRangeMixin(models.Model, DateRangeMixin):
         help_text="""The date on which this credit ceases to apply,
             if any.
 
-            """)
+            """
+    )
 
     def range_start(self):
         return self.effective_from
